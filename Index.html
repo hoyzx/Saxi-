@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+
+        .gif-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .yes-btn {
+            background-color: green;
+            color: white;
+        }
+
+        .no-btn {
+            background-color: red;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .question {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .no-btn:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gif-container">
+        <img id="initialGif" src="https://media.giphy.com/media/tpVKvAabWt3G5csMkT/giphy.gif" alt="Frog">
+    </div>
+
+    <div class="question">Will you be my Valentine?</div>
+
+    <div class="buttons">
+        <button id="yesBtn" class="yes-btn">Yes</button>
+        <button id="noBtn" class="no-btn">No</button>
+    </div>
+
+    <div id="followUpQuestion" class="hidden">
+        <div class="question" id="followUpText">Saxi vaneko ni</div>
+    </div>
+
+    <script>
+        let yesButton = document.getElementById('yesBtn');
+        let noButton = document.getElementById('noBtn');
+        let followUpQuestion = document.getElementById('followUpQuestion');
+        let followUpText = document.getElementById('followUpText');
+        let initialGif = document.getElementById('initialGif');
+        
+        let yesCount = 0;
+        let noCount = 0;
+
+        noButton.addEventListener('click', function () {
+            // Increase the size of the Yes button when No is clicked
+            yesButton.style.transform = `scale(${1.2 + (noCount * 0.2)})`;
+
+            if (noCount === 0) {
+                followUpText.innerText = "Saxi vaneko ni";
+            } else if (noCount === 1) {
+                followUpText.innerText = "Kasam saxi vaneko";
+            } else if (noCount === 2) {
+                followUpText.innerText = "Kasam ni?";
+            } else if (noCount === 3) {
+                followUpText.innerText = "I will give you a necklace worth 1 lakh!";
+            } else if (noCount === 4) {
+                followUpText.innerText = "You want to get married or something?";
+            } else if (noCount >= 5) {
+                // After the 5th click, hide the No button and display the final gif
+                noButton.disabled = true;
+                followUpText.innerText = "Please say Yes...";
+                initialGif.src = "https://media.giphy.com/media/EQUQdq1Mr94PUJtANv/giphy.gif"; // Final gif
+                yesButton.style.transform = "scale(2)"; // Make the Yes button large
+            }
+
+            followUpQuestion.classList.remove('hidden');
+            noCount++;
+        });
+
+        yesButton.addEventListener('click', function () {
+            if (noCount >= 5) {
+                alert("Yes, forever!");
+            }
+        });
+    </script>
+
+</body>
+</html>
